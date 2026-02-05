@@ -1,0 +1,65 @@
+/* Shared admin page styles (common for books, borrowings, staff, reviews) */
+
+:root{
+    --admin-primary: #8B4513;
+    --admin-secondary: #D2691E;
+    --admin-accent: #F4A460;
+}
+
+.books-header{
+    background: linear-gradient(135deg,var(--admin-primary) 0%,var(--admin-secondary) 100%);
+    color: white;
+    padding: 1.8rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.books-header h1{ margin:0; font-weight:700; }
+.books-header p{ margin:0.25rem 0 0 0; opacity:0.95; }
+
+.header-stats{ display:flex; gap:1rem; align-items:center; }
+.stat-item{ text-align:center; background: rgba(255,255,255,0.12); padding:0.6rem 0.9rem; border-radius:8px; }
+.stat-item .stat-value{ font-size:1.2rem; font-weight:700; display:block; }
+.stat-item .stat-label{ font-size:0.85rem; opacity:0.9; }
+
+.table-card{ background:white; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.06); overflow:hidden; margin-bottom:1.5rem; }
+.table-card .table{ margin:0; }
+.table-card thead th{ background: linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%); border-bottom:1px solid #dee2e6; font-weight:600; }
+.table-card tbody tr{ transition: all 0.18s ease; }
+.table-card tbody tr:hover{ background:#f8f9fa; }
+.table-card td, .table-card th{ vertical-align:middle; padding:0.65rem 1rem; }
+
+.btn-toolbar{ display:flex; gap:0.6rem; flex-wrap:wrap; margin-bottom:1rem; }
+.btn-toolbar .btn{ border-radius:8px; padding:0.5rem 1rem; }
+
+.action-buttons{ display:flex; gap:0.5rem; }
+.btn-action{ padding:0.35rem 0.7rem; font-size:0.85rem; border-radius:6px; }
+
+.badge-custom{ padding:0.35rem 0.7rem; border-radius:6px; font-weight:500; font-size:0.82rem; }
+.stock-badge{ background: linear-gradient(135deg,#4CAF50 0%,#45a049 100%); color:#fff; }
+.category-badge{ background: linear-gradient(135deg,#2196F3 0%,#0b7dda 100%); color:#fff; }
+.featured-badge{ background: linear-gradient(135deg,#FFC107 0%,#fb8500 100%); color:#000; }
+.status-active{ background: linear-gradient(135deg,#10b981 0%,#059669 100%); color:#fff; }
+.status-inactive{ background: linear-gradient(135deg,#ef4444 0%,#dc2626 100%); color:#fff; }
+
+/* Responsive adjustments */
+@media (max-width: 768px){
+    .books-header{ flex-direction:column; text-align:center; }
+    .books-header h1{ font-size:1.6rem; }
+    .action-buttons{ flex-direction:column; }
+    .btn-action{ width:100%; }
+}
+
+/* Pagination small styling */
+nav[role="navigation"]{ margin-top:1rem; display:flex; justify-content:center; }
+.pagination{ display:flex; gap:0.3rem; flex-wrap:wrap; justify-content:center; margin:0; }
+.pagination .page-link{ padding:0.35rem 0.55rem; font-size:0.8rem; border-radius:5px; border:1px solid #ddd; color:#495057; min-width:32px; text-align:center; }
+.pagination .page-link:hover:not(.disabled){ background:#f8f9fa; border-color:var(--admin-primary); color:var(--admin-primary); transform:translateY(-1px); }
+.pagination .page-item.active .page-link{ background: linear-gradient(135deg,var(--admin-primary) 0%,var(--admin-secondary) 100%); color:#fff; border-color:var(--admin-primary); }
+.pagination .page-item.disabled .page-link{ opacity:0.45; cursor:not-allowed; }
+
+/* Small helper */
+.empty-state{ text-align:center; padding:2.5rem 1rem; color:#6c757d; }
