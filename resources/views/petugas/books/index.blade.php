@@ -51,7 +51,7 @@
 </div>
 
 <!-- Export Button -->
-<div class="btn-toolbar mb-4">
+<div class="btn-toolbar">
     <a href="{{ route('petugas.books.export-csv', array_merge(request()->all())) }}" class="btn btn-info" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border: none; color: white;">
         <i class="fas fa-download"></i> Export CSV
     </a>
@@ -75,14 +75,21 @@
                 @forelse($books as $book)
                     <tr>
                         <td>
-                            <strong>{{ Str::limit($book->title, 50) }}</strong>
-                            @if($book->cover_image)
-                                <br><small class="text-success"><i class="fas fa-image"></i> Ada cover</small>
-                            @else
-                                <br><small class="text-warning"><i class="fas fa-exclamation-triangle"></i> Tidak ada cover</small>
-                            @endif
+                            <div class="book-title-cell">
+                                @if($book->cover_image)
+                                    <img src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}" class="book-cover">
+                                @else
+                                    <img src="{{ asset('images/placeholder-book.png') }}" alt="no cover" class="book-cover" style="background: #f0f0f0;">
+                                @endif
+                                <div class="book-info">
+                                    <strong title="{{ $book->title }}">{{ Str::limit($book->title, 50) }}</strong>
+                                    <small>ID: #{{ $book->id }}</small>
+                                </div>
+                            </div>
                         </td>
-                        <td>{{ Str::limit($book->author, 30) }}</td>
+                        <td>
+                            <small>{{ $book->author ?? '-' }}</small>
+                        </td>
                         <td>
                             <span class="badge bg-secondary">{{ $book->category->name ?? '-' }}</span>
                         </td>
@@ -90,35 +97,43 @@
                             <div class="stok-info">
                                 <strong>{{ $book->available_copies }}/{{ $book->total_copies }}</strong>
                                 @if($book->available_copies < 3 && $book->available_copies > 0)
-                                    <br><small class="text-warning"><i class="fas fa-exclamation"></i> Stok terbatas</small>
+                                    <br><small class="text-warning"><i class="fas fa-exclamation"></i> Terbatas</small>
                                 @elseif($book->available_copies <= 0)
                                     <br><small class="text-danger"><i class="fas fa-times"></i> Habis</small>
                                 @endif
                             </div>
                         </td>
                         <td>
-                            @if($book->is_active)
-                                <span class="badge bg-success"><i class="fas fa-check-circle"></i> Aktif</span>
-                            @else
-                                <span class="badge bg-danger"><i class="fas fa-times-circle"></i> Nonaktif</span>
-                            @endif
-                            @if($book->is_featured)
-                                <br><small class="text-primary"><i class="fas fa-star"></i> Featured</small>
-                            @endif
+                            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                                @if($book->is_active)
+                                    <span class="badge bg-success">✓ Aktif</span>
+                                @else
+                                    <span class="badge bg-danger">✕ Nonaktif</span>
+                                @endif
+                                @if($book->is_featured)
+                                    <span class="badge bg-warning">⭐ Featured</span>
+                                @endif
+                            </div>
                         </td>
                         <td>
-                            <a href="{{ route('petugas.books.show', $book) }}" class="btn btn-sm btn-info" title="Lihat detail">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="{{ route('books.show', $book->slug) }}" target="_blank" class="btn btn-sm btn-primary" title="Lihat di katalog">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
+                            <div class="action-buttons">
+                                <a href="{{ route('petugas.books.show', $book) }}" class="btn btn-warning btn-sm" title="Lihat detail">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ route('books.show', $book->slug) }}" target="_blank" class="btn btn-secondary btn-sm" title="Lihat di katalog">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center py-5">
-                            <p class="text-muted">Tidak ada buku ditemukan</p>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <i class="fas fa-book"></i>
+                                <p style="margin: 0;">Belum ada buku yang ditambahkan</p>
+                                <small style="color: #aaa;">Hubungi admin untuk menambahkan buku baru</small>
+                            </div>
                         </td>
                     </tr>
                 @endforelse
