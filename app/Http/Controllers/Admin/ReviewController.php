@@ -10,6 +10,15 @@ class ReviewController extends Controller
 {
     public function index(Request $request)
     {
+        // Handle bulk actions if POST request
+        if ($request->isMethod('post')) {
+            if ($request->has('bulk_approve')) {
+                return $this->bulkApprove($request);
+            } elseif ($request->has('bulk_reject')) {
+                return $this->bulkReject($request);
+            }
+        }
+
         // show pending reviews for moderation
         $reviews = Review::with('user', 'book')
             ->where('is_published', false)

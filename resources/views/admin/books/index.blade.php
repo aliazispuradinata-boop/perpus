@@ -73,9 +73,39 @@
 
         .filter-form {
             display: grid;
-            grid-template-columns: 2fr 1.5fr 1fr 1fr;
+            grid-template-columns: 2fr 2fr 1fr;
             gap: 1rem;
             align-items: end;
+        }
+
+        .category-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .category-group select {
+            flex: 1;
+        }
+
+        .btn-add-category {
+            padding: 0.7rem;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+            background: linear-gradient(135deg, #8a5c3a 0%, #b8860b 100%);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+        }
+
+        .btn-add-category:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(138, 92, 58, 0.3);
         }
 
         .filter-form input,
@@ -377,16 +407,20 @@
     <div class="filter-area">
         <form method="GET" action="{{ route('admin.books.index') }}" class="filter-form">
             <input type="text" name="search" placeholder="🔍 Cari buku atau penulis..." value="{{ request('search') }}">
-            <select name="category">
-                <option value="">📚 Semua Kategori</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}" @if(request('category') == $category->id) selected @endif>
-                        {{ $category->name }}
-                    </option>
-                @endforeach
-            </select>
+            <div class="category-group">
+                <select name="category">
+                    <option value="">📚 Semua Kategori</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" @if(request('category') == $category->id) selected @endif>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <button type="button" class="btn-add-category" data-bs-toggle="modal" data-bs-target="#addCategoryModal" title="Tambah Kategori">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
             <button type="submit"><i class="fas fa-search"></i> Cari</button>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#addCategoryModal" style="background: linear-gradient(135deg, #8a5c3a 0%, #b8860b 100%);"><i class="fas fa-plus"></i> Kategori</button>
         </form>
     </div>
 

@@ -4,10 +4,10 @@
 Add a "+" button next to the category dropdown in the admin books index page (kelola buku) to allow adding new categories directly from the filter dropdown.
 
 ## Steps
-- [ ] Modify `resources/views/admin/books/index.blade.php` to add "+" button next to category select
-- [ ] Add the category modal HTML to the index page
-- [ ] Add JavaScript for handling AJAX category creation
-- [ ] Test the functionality
+- [x] Modify `resources/views/admin/books/index.blade.php` to add "+" button next to category select
+- [x] Add the category modal HTML to the index page
+- [x] Add JavaScript for handling AJAX category creation
+- [x] Test the functionality
 
 ## Files to Edit
 - `resources/views/admin/books/index.blade.php`

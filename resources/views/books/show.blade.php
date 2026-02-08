@@ -4,28 +4,199 @@
 
 @section('extra-css')
     <link rel="stylesheet" href="{{ asset('css/pages/books-show.css') }}">
+    <style>
+        .book-cover-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .book-cover-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .book-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #6c757d;
+        }
+
+        .book-placeholder i {
+            font-size: 80px;
+            opacity: 0.3;
+        }
+
+        .action-buttons-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .action-buttons-group .btn {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-borrow {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+        }
+
+        .btn-borrow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            color: white;
+        }
+
+        .btn-borrow:disabled {
+            background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-wishlist {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border: none;
+        }
+
+        .btn-wishlist:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            color: white;
+        }
+
+        .btn-wishlist.added {
+            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+        }
+
+        .btn-wishlist.added:hover {
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+
+        .btn-upgrade {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+        }
+
+        .btn-upgrade:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+            color: white;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            color: white;
+        }
+
+        .book-info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .book-info-card h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .book-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .meta-value {
+            font-size: 1rem;
+            color: #1f2937;
+        }
+
+        .book-description {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .book-description h5 {
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .book-meta {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 @endsection
 
 @section('content')
-<div class="row mb-4">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="ratio ratio-2x3 bg-light">
+<div class="container my-4">
+    <div class="row gap-4">
+        <!-- Book Cover Section -->
+        <div class="col-lg-4">
+            <div class="book-cover-container">
                 @if($book->cover_image)
-                    <img src="{{ $book->cover_url }}" alt="{{ $book->title }}" class="img-fluid">
+                    <img src="{{ $book->cover_url }}" alt="{{ $book->title }}" class="book-cover-img">
                 @else
-                    <div class="d-flex align-items-center justify-content-center text-muted">
-                        <i class="fas fa-book fa-5x"></i>
+                    <div class="book-placeholder">
+                        <i class="fas fa-book"></i>
                     </div>
                 @endif
             </div>
-            <div class="card-body text-center">
+
+            <!-- Action Buttons -->
+            <div class="action-buttons-group">
                 @if(auth()->check() && auth()->user()->isPetugas())
                     @if($book->available_copies > 0)
-                        <form method="POST" action="{{ route('borrowings.store') }}" class="mb-2">
+                        <form method="POST" action="{{ route('borrowings.store') }}" style="width: 100%;">
                             @csrf
                             <input type="hidden" name="book_id" value="{{ $book->id }}">
-                            <button type="submit" class="btn btn-primary w-100">
+                            <button type="submit" class="btn btn-borrow w-100">
                                 <i class="fas fa-hand-holding-heart"></i> Pinjam Buku
                             </button>
                         </form>
@@ -35,74 +206,101 @@
                         </button>
                     @endif
                 @elseif(auth()->check() && auth()->user()->isUser())
-                    <a href="{{ route('borrowings.history') }}" class="btn btn-warning w-100">
-                        <i class="fas fa-sign-in-alt"></i> Upgrade ke Petugas
+                    <a href="{{ route('borrowings.history') }}" class="btn btn-upgrade w-100">
+                        <i class="fas fa-star"></i> Upgrade ke Petugas
                     </a>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-primary w-100">
+                    <a href="{{ route('login') }}" class="btn btn-login w-100">
                         <i class="fas fa-sign-in-alt"></i> Login untuk Pinjam
                     </a>
                 @endif
 
                 @auth
-                    <button type="button" class="btn btn-outline-primary w-100 mt-2" onclick="toggleWishlist({{ $book->id }})">
-                        @if($is_in_wishlist)
-                            <i class="fas fa-heart"></i> Hapus dari Wishlist
-                        @else
-                            <i class="far fa-heart"></i> Tambah ke Wishlist
-                        @endif
+                    <button type="button" class="btn btn-wishlist w-100" id="wishlistBtn" onclick="toggleWishlist({{ $book->id }}, this)">
+                        <i class="fas fa-heart" id="wishlistIcon"></i>
+                        <span id="wishlistText">
+                            @if($is_in_wishlist)
+                                Hapus dari Favorit
+                            @else
+                                Tambah ke Favorit
+                            @endif
+                        </span>
                     </button>
                 @endauth
             </div>
         </div>
-    </div>
 
-    <div class="col-md-8">
-        <h1>{{ $book->title }}</h1>
-        
-        <div class="mb-3">
-            <p class="text-muted mb-1"><strong>Penulis:</strong> {{ $book->author }}</p>
-            <p class="text-muted mb-1"><strong>Penerbit:</strong> {{ $book->publisher ?? '-' }}</p>
-            <p class="text-muted mb-1"><strong>Tahun Terbit:</strong> {{ $book->published_year ?? '-' }}</p>
-            <p class="text-muted mb-3"><strong>Halaman:</strong> {{ $book->pages ?? '-' }}</p>
-        </div>
+        <!-- Book Info Section -->
+        <div class="col-lg-8">
+            <div class="book-info-card">
+                <h1>{{ $book->title }}</h1>
 
-        <div class="mb-3">
-            <span class="badge bg-warning text-dark me-2">
-                <i class="fas fa-star"></i> {{ number_format($book->rating, 1) }} ({{ $book->review_count }} review)
-            </span>
-            <span class="badge-category">{{ $book->category->name }}</span>
-        </div>
+                <div class="book-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Penulis</span>
+                        <span class="meta-value">{{ $book->author ?? '-' }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Penerbit</span>
+                        <span class="meta-value">{{ $book->publisher ?? '-' }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Tahun Terbit</span>
+                        <span class="meta-value">{{ $book->published_year ?? '-' }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Halaman</span>
+                        <span class="meta-value">{{ $book->pages ?? '-' }}</span>
+                    </div>
+                </div>
 
-        <div class="mb-3">
-            <strong>Ketersediaan:</strong>
-            <p class="mb-0">
-                @if($book->available_copies > 0)
-                    <span class="badge bg-success">{{ $book->available_copies }} dari {{ $book->total_copies }} tersedia</span>
-                @else
-                    <span class="badge bg-danger">Semua salinan sedang dipinjam</span>
+                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem;">
+                    <span class="badge bg-warning text-dark" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                        <i class="fas fa-star"></i> {{ number_format($book->rating, 1) }} ({{ $book->review_count }} review)
+                    </span>
+                    <span class="badge" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; padding: 0.5rem 1rem; font-size: 0.9rem;">
+                        {{ $book->category->name }}
+                    </span>
+                </div>
+
+                <div style="background: #f3f4f6; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                    <strong>📊 Ketersediaan:</strong>
+                    <p style="margin: 0.5rem 0 0 0;">
+                        @if($book->available_copies > 0)
+                            <span style="background: #d1fae5; color: #065f46; padding: 0.4rem 0.8rem; border-radius: 6px; display: inline-block; font-weight: 600;">
+                                ✓ {{ $book->available_copies }} dari {{ $book->total_copies }} tersedia
+                            </span>
+                        @else
+                            <span style="background: #fee2e2; color: #7f1d1d; padding: 0.4rem 0.8rem; border-radius: 6px; display: inline-block; font-weight: 600;">
+                                ✕ Semua salinan sedang dipinjam
+                            </span>
+                        @endif
+                    </p>
+                </div>
+
+                @if($book->description)
+                    <div class="book-description">
+                        <h5>📖 Deskripsi</h5>
+                        <p style="line-height: 1.6; color: #374151;">{{ $book->description }}</p>
+                    </div>
                 @endif
-            </p>
-        </div>
 
-        <div class="mb-4">
-            <h5>Deskripsi</h5>
-            <p>{{ $book->description ?? 'Tidak ada deskripsi tersedia' }}</p>
-        </div>
-
-        @if($book->content_preview)
-            <div class="mb-4">
-                <h5>Preview</h5>
-                <p class="bg-light p-3 rounded">{{ $book->content_preview }}</p>
+                @if($book->content_preview)
+                    <div class="book-description">
+                        <h5>👀 Preview Konten</h5>
+                        <div style="background: #f9fafb; padding: 1rem; border-radius: 8px; border-left: 4px solid #8b5cf6; line-height: 1.6; color: #374151;">
+                            {{ $book->content_preview }}
+                        </div>
+                    </div>
+                @endif
             </div>
-        @endif
+        </div>
     </div>
-</div>
 
-<!-- Reviews Section -->
-<div class="row mt-5">
-    <div class="col-md-8">
-        <h2 class="section-title">Ulasan & Rating</h2>
+    <!-- Reviews Section -->
+    <div class="row mt-5">
+        <div class="col-lg-8">
+            <h2 class="section-title">Ulasan & Rating</h2>
 
         @if(auth()->check() && auth()->user()->isMember() && $can_review)
             <div class="card mb-4">
@@ -235,4 +433,92 @@
 
 @section('extra-js')
     <script src="{{ asset('js/pages/books.js') }}"></script>
+    <script>
+        function toggleWishlist(bookId, button) {
+            const isInWishlist = button.classList.contains('added');
+            const url = isInWishlist 
+                ? `/books/${bookId}/wishlist` 
+                : `/books/${bookId}/wishlist`;
+            const method = isInWishlist ? 'DELETE' : 'POST';
+
+            // Disable button during request
+            button.disabled = true;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    // Toggle button state
+                    button.classList.toggle('added');
+                    
+                    if (isInWishlist) {
+                        // Removed from wishlist
+                        document.getElementById('wishlistIcon').className = 'fas fa-heart';
+                        document.getElementById('wishlistText').textContent = 'Tambah ke Favorit';
+                        showNotification('Buku dihapus dari favorit', 'info');
+                    } else {
+                        // Added to wishlist
+                        document.getElementById('wishlistIcon').className = 'fas fa-heart';
+                        document.getElementById('wishlistText').textContent = 'Hapus dari Favorit';
+                        showNotification('✓ Buku ditambahkan ke favorit!', 'success');
+                        
+                        // Redirect to wishlist after 1.5 seconds
+                        setTimeout(() => {
+                            window.location.href = '{{ route("wishlist.index") }}';
+                        }, 1500);
+                    }
+                } else if (data.error) {
+                    showNotification(data.error, 'error');
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Terjadi kesalahan', 'error');
+                button.innerHTML = originalText;
+                button.disabled = false;
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                font-weight: 600;
+                z-index: 9999;
+                animation: slideInRight 0.3s ease;
+                ${type === 'success' ? 'background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white;' : ''}
+                ${type === 'error' ? 'background: linear-gradient(135deg, #ef5350 0%, #e53935 100%); color: white;' : ''}
+                ${type === 'info' ? 'background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white;' : ''}
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Initialize button state
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('wishlistBtn');
+            const text = document.getElementById('wishlistText');
+            if (text && text.textContent.includes('Hapus')) {
+                btn.classList.add('added');
+            }
+        });
+    </script>
 @endsection

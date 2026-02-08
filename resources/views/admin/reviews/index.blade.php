@@ -29,7 +29,7 @@
     <div class="table-responsive">
         <p class="px-4 py-3">Daftar ulasan yang menunggu persetujuan.</p>
 
-        <form method="POST" id="bulkForm">
+        <form method="POST" id="bulkForm" onsubmit="return false;">
             @csrf
             <div class="table-responsive">
                 <table class="table table-hover">

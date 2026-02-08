@@ -141,7 +141,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('petugas/export/csv', [\App\Http\Controllers\Admin\StaffController::class, 'exportCSV'])->name('petugas.export-csv');
 
     // Reviews moderation
-    Route::get('reviews/pending', [\App\Http\Controllers\Admin\ReviewController::class, 'index'])->name('reviews.pending');
+    Route::match(['get', 'post'], 'reviews/pending', [\App\Http\Controllers\Admin\ReviewController::class, 'index'])->name('reviews.pending');
     Route::post('reviews/{review}/approve', [\App\Http\Controllers\Admin\ReviewController::class, 'approve'])->name('reviews.approve');
     Route::post('reviews/{review}/reject', [\App\Http\Controllers\Admin\ReviewController::class, 'reject'])->name('reviews.reject');
     Route::post('reviews/bulk-approve', [\App\Http\Controllers\Admin\ReviewController::class, 'bulkApprove'])->name('reviews.bulk-approve');
