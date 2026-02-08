@@ -69,6 +69,19 @@
                             </a>
                         </li>
                         
+                        <!-- User Wishlist Link -->
+                        @if(auth()->user()->isUser())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('wishlist.index') }}">
+                                    <i class="fas fa-heart"></i> Favorit
+                                    @php $wishlistCount = auth()->user()->wishlists()->count(); @endphp
+                                    @if($wishlistCount > 0)
+                                        <span class="badge bg-danger ms-1">{{ $wishlistCount }}</span>
+                                    @endif
+                                </a>
+                            </li>
+                        @endif
+                        
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('borrowings.history') }}">
                                 <i class="fas fa-history"></i> Peminjaman
@@ -79,6 +92,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('petugas.borrowings.index') }}">
                                     <i class="fas fa-tasks"></i> Verifikasi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('petugas.books.index') }}">
+                                    <i class="fas fa-book"></i> Kelola Buku
                                 </a>
                             </li>
                         @endif

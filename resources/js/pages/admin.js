@@ -91,6 +91,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Fallback delete confirmation for forms that contain a red delete button
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        const delBtn = form.querySelector('button.btn-danger, input[type="submit"].btn-danger');
+        if (delBtn) {
+            form.addEventListener('submit', function(e) {
+                // If button triggered the submit, confirm
+                const message = delBtn.dataset.deleteConfirm || 'Yakin ingin menghapus item ini?';
+                if (!confirm(message)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+        }
+    });
+
     // Stats animation
     const statBoxes = document.querySelectorAll('.stat-box');
     statBoxes.forEach((box, index) => {

@@ -88,24 +88,34 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                            <a href="{{ route('petugas.books.index') }}" class="btn btn-outline-info w-100 mb-2">
+                                <i class="fas fa-book"></i> Kelola Buku
+                            </a>
+                        </div>
+                        <div class="col-md-2">
                             <a href="{{ route('petugas.borrowings.index') }}" class="btn btn-outline-primary w-100 mb-2">
-                                <i class="fas fa-list"></i> Lihat Semua Peminjaman
+                                <i class="fas fa-list"></i> Semua Peminjaman
                             </a>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <a href="{{ route('petugas.borrowings.index', ['status' => 'pending']) }}" class="btn btn-outline-warning w-100 mb-2">
-                                <i class="fas fa-hourglass-start"></i> Peminjaman Menunggu
+                                <i class="fas fa-hourglass-start"></i> Menunggu
                             </a>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <a href="{{ route('petugas.borrowings.index', ['status' => 'active']) }}" class="btn btn-outline-success w-100 mb-2">
-                                <i class="fas fa-check-circle"></i> Peminjaman Aktif
+                                <i class="fas fa-check-circle"></i> Aktif
                             </a>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <a href="{{ route('petugas.borrowings.index', ['status' => 'overdue']) }}" class="btn btn-outline-danger w-100 mb-2">
-                                <i class="fas fa-calendar-times"></i> Peminjaman Terlambat
+                                <i class="fas fa-calendar-times"></i> Terlambat
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="{{ route('petugas.borrowings.export') }}" class="btn btn-outline-secondary w-100 mb-2">
+                                <i class="fas fa-download"></i> Export
                             </a>
                         </div>
                     </div>

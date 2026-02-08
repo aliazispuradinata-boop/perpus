@@ -130,6 +130,89 @@ class BookController extends Controller
     }
 
     /**
+     * Show user's wishlist / favorites.
+     */
+    public function wishlist(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        $query = auth()->user()->wishlists()->with('book');
+
+        // Search
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->whereHas('book', function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('author', 'like', "%{$search}%");
+            });
+        }
+
+        // Sort
+        $sort = $request->get('sort', 'newest');
+        switch ($sort) {
+            case 'title':
+                $query->orderBy('book.title', 'asc');
+                break;
+            case 'author':
+                $query->orderBy('book.author', 'asc');
+                break;
+            default:
+                $query->orderBy('wishlists.created_at', 'desc');
+        }
+
+        $wishlists = $query->paginate(12);
+        $wishlist_books = $wishlists->pluck('book');
+
+        return view('books.wishlist', compact('wishlists', 'wishlist_books'));
+    }
+
+    /**
+     * Bulk borrow from wishlist
+     */
+    public function borrowFromWishlist(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu');
+        }
+
+        $validated = $request->validate([
+            'book_ids' => 'required|array',
+            'book_ids.*' => 'exists:books,id'
+        ]);
+
+        $successCount = 0;
+        $failedCount = 0;
+
+        foreach ($validated['book_ids'] as $bookId) {
+            $book = Book::find($bookId);
+            
+            if ($book && $book->available_copies > 0) {
+                // Create borrowing
+                \App\Models\Borrowing::create([
+                    'user_id' => auth()->id(),
+                    'book_id' => $bookId,
+                    'borrowed_at' => now(),
+                    'due_date' => now()->addDays(7),
+                    'status' => 'pending',
+                ]);
+                
+                $successCount++;
+            } else {
+                $failedCount++;
+            }
+        }
+
+        $message = "Berhasil meminjam $successCount buku";
+        if ($failedCount > 0) {
+            $message .= ". $failedCount buku tidak tersedia";
+        }
+
+        return back()->with('success', $message);
+    }
+
+    /**
      * Store review.
      */
     public function storeReview(Request $request, Book $book)

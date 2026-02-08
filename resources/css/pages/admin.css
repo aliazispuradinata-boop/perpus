@@ -398,6 +398,29 @@
 .stat-box:nth-child(3) { animation-delay: 0.3s; }
 .stat-box:nth-child(4) { animation-delay: 0.4s; }
 
+/* Admin Books page specific fixes */
+.books-header { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:1.25rem; }
+.books-header h1 { margin:0; font-size:1.6rem; }
+.header-stats { display:flex; gap:0.75rem; align-items:center; }
+.stat-item { text-align:center; background:#fff; padding:0.6rem 0.9rem; border-radius:8px; box-shadow:0 1px 6px rgba(0,0,0,0.04); }
+.stat-value { display:block; font-weight:700; font-size:1.05rem; }
+.filter-section .form-control, .filter-section .form-select { height:46px; }
+.btn-toolbar { display:flex; gap:0.5rem; justify-content:flex-end; margin:0.75rem 0; }
+.book-cover { width:46px; height:64px; object-fit:cover; border-radius:4px; margin-right:0.75rem; }
+.book-title-cell { display:flex; align-items:center; }
+.book-info small { display:block; color:#6c757d; }
+.badge-custom { background:#f1f3f5; color:#333; padding:0.35rem 0.6rem; border-radius:6px; font-size:0.85rem; }
+.status-active { background:#e6ffed; color:#0f5132; padding:0.25rem 0.45rem; border-radius:6px; }
+.status-inactive { background:#fff4f2; color:#721c24; padding:0.25rem 0.45rem; border-radius:6px; }
+.featured-badge { background:#fff7e6; color:#7a4b00; padding:0.25rem 0.45rem; border-radius:6px; }
+.action-buttons .btn { margin-right:0.35rem; }
+.empty-state { text-align:center; padding:1.5rem 0; color:#6c757d; }
+
+@media (max-width: 768px) {
+    .books-header { flex-direction:column; align-items:flex-start; }
+    .btn-toolbar { width:100%; justify-content:flex-start; }
+}
+
 .stat-box:hover {
     transform: translateY(-10px);
     box-shadow: 0 8px 25px rgba(139, 69, 19, 0.2);

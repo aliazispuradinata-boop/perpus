@@ -82,6 +82,12 @@ Route::prefix('books')->group(function () {
     });
 });
 
+// User Wishlist Routes
+Route::middleware('auth')->prefix('wishlist')->name('wishlist.')->group(function () {
+    Route::get('/', [BookController::class, 'wishlist'])->name('index');
+    Route::post('/borrow-multiple', [BookController::class, 'borrowFromWishlist'])->name('borrow-multiple');
+});
+
 // Borrowing Routes
 Route::middleware('auth')->prefix('borrowings')->group(function () {
     Route::get('/history', [BorrowingController::class, 'history'])->name('borrowings.history');
@@ -147,6 +153,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->name('petugas.')->group(function () {
     // Dashboard
     Route::get('/dashboard', [PetugasDashboardController::class, 'index'])->name('dashboard');
+    
+    // Books Management
+    Route::prefix('books')->name('books.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Petugas\BookController::class, 'index'])->name('index');
+        Route::get('/{book}', [\App\Http\Controllers\Petugas\BookController::class, 'show'])->name('show');
+        Route::get('/export/csv', [\App\Http\Controllers\Petugas\BookController::class, 'exportCSV'])->name('export-csv');
+    });
     
     // Borrowings Management
     Route::prefix('borrowings')->name('borrowings.')->group(function () {
