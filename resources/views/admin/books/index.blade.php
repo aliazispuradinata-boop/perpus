@@ -3,8 +3,8 @@
 @section('title', 'Kelola Buku - Admin')
 
 @section('extra-css')
-    <link rel="stylesheet" href="{{ asset('css/pages/admin.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/pages/admin-common.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/admin.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/admin-common.css') }}?v={{ time() }}">
 @endsection
 
 @section('content')
@@ -185,7 +185,7 @@
 @endsection
 
 @section('extra-js')
-    <script src="{{ asset('js/pages/admin.js') }}"></script>
+    <script src="{{ asset('js/pages/admin.js') }}?v={{ time() }}"></script>
     <script>
         document.getElementById('saveCategoryBtn').addEventListener('click', function() {
             const form = document.getElementById('addCategoryForm');

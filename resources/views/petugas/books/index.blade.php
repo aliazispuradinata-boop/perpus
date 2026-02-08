@@ -3,8 +3,8 @@
 @section('title', 'Kelola Buku - Petugas')
 
 @section('extra-css')
-    <link rel="stylesheet" href="{{ asset('css/pages/admin.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/pages/admin-common.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/admin.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/admin-common.css') }}?v={{ time() }}">
 @endsection
 
 @section('content')
