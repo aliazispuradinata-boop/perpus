@@ -406,15 +406,177 @@
 .stat-value { display:block; font-weight:700; font-size:1.05rem; }
 .filter-section .form-control, .filter-section .form-select { height:46px; }
 .btn-toolbar { display:flex; gap:0.5rem; justify-content:flex-end; margin:0.75rem 0; }
-.book-cover { width:46px; height:64px; object-fit:cover; border-radius:4px; margin-right:0.75rem; }
-.book-title-cell { display:flex; align-items:center; }
-.book-info small { display:block; color:#6c757d; }
-.badge-custom { background:#f1f3f5; color:#333; padding:0.35rem 0.6rem; border-radius:6px; font-size:0.85rem; }
-.status-active { background:#e6ffed; color:#0f5132; padding:0.25rem 0.45rem; border-radius:6px; }
-.status-inactive { background:#fff4f2; color:#721c24; padding:0.25rem 0.45rem; border-radius:6px; }
-.featured-badge { background:#fff7e6; color:#7a4b00; padding:0.25rem 0.45rem; border-radius:6px; }
-.action-buttons .btn { margin-right:0.35rem; }
-.empty-state { text-align:center; padding:1.5rem 0; color:#6c757d; }
+/* Book Cover Styling */
+.book-cover { 
+    width: 50px; 
+    height: 68px; 
+    object-fit: cover; 
+    border-radius: 6px; 
+    margin-right: 1rem; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+}
+
+.book-cover:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.book-title-cell { 
+    display: flex; 
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.book-info {
+    flex: 1;
+}
+
+.book-info strong {
+    display: block;
+    color: #2c1810;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    word-break: break-word;
+}
+
+.book-info small { 
+    display: block; 
+    color: #6c757d;
+    font-size: 0.8rem;
+}
+
+/* Badge Styling */
+.badge-custom { 
+    background: linear-gradient(135deg, #f1f3f5 0%, #e9ecef 100%);
+    color: #2c1810; 
+    padding: 0.4rem 0.7rem; 
+    border-radius: 6px; 
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+    border: 1px solid #dee2e6;
+}
+
+.stock-badge {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    color: #1565c0 !important;
+    border: 1px solid #90caf9 !important;
+    font-weight: 600;
+}
+
+.category-badge {
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%) !important;
+    color: #6a1b9a !important;
+    border: 1px solid #ce93d8 !important;
+}
+
+.status-active { 
+    background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%) !important;
+    color: #1b5e20 !important; 
+    padding: 0.3rem 0.6rem; 
+    border-radius: 6px;
+    border: 1px solid #81c784 !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.status-inactive { 
+    background: linear-gradient(135deg, #ffccbc 0%, #ffab91 100%) !important;
+    color: #bf360c !important; 
+    padding: 0.3rem 0.6rem; 
+    border-radius: 6px;
+    border: 1px solid #ff7043 !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.featured-badge { 
+    background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%) !important;
+    color: #f57f17 !important; 
+    padding: 0.3rem 0.6rem; 
+    border-radius: 6px;
+    border: 1px solid #fdd835 !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+/* Action Buttons Enhanced */
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.action-buttons .btn {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    border: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.action-buttons .btn-edit {
+    background: linear-gradient(135deg, #ffa726 0%, #fb8c00 100%);
+    color: white;
+}
+
+.action-buttons .btn-edit:hover {
+    background: linear-gradient(135deg, #fb8c00 0%, #e65100 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 167, 38, 0.3);
+}
+
+.action-buttons .btn-delete {
+    background: linear-gradient(135deg, #ef5350 0%, #e53935 100%);
+    color: white;
+}
+
+.action-buttons .btn-delete:hover {
+    background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+}
+
+.action-buttons .btn-show {
+    background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+    color: white;
+}
+
+.action-buttons .btn-show:hover {
+    background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 187, 106, 0.3);
+}
+
+.action-buttons .btn-action {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.empty-state { 
+    text-align: center; 
+    padding: 3rem 1.5rem; 
+    color: #6c757d;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: #d2691e;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c1810;
+}
 
 @media (max-width: 768px) {
     .books-header { flex-direction:column; align-items:flex-start; }

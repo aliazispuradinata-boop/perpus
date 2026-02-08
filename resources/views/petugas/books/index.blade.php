@@ -61,20 +61,20 @@
 <div class="table-card">
     <div class="table-responsive">
         <table class="table table-hover">
-            <thead>
+            <thead style="background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%); color: white;">
                 <tr>
-                    <th style="width: 35%;">📖 Judul Buku</th>
-                    <th style="width: 15%;">✍️ Penulis</th>
-                    <th style="width: 15%;">📂 Kategori</th>
-                    <th style="width: 12%;">📊 Stok</th>
-                    <th style="width: 12%;">⚙️ Status</th>
-                    <th style="width: 11%;">🎯 Aksi</th>
+                    <th style="width: 38%; color: white; font-weight: 600; padding: 1rem;">📖 Judul Buku</th>
+                    <th style="width: 15%; color: white; font-weight: 600; padding: 1rem;">✍️ Penulis</th>
+                    <th style="width: 13%; color: white; font-weight: 600; padding: 1rem;">📂 Kategori</th>
+                    <th style="width: 12%; color: white; font-weight: 600; padding: 1rem;">📊 Stok</th>
+                    <th style="width: 12%; color: white; font-weight: 600; padding: 1rem;">⚙️ Status</th>
+                    <th style="width: 10%; color: white; font-weight: 600; padding: 1rem; text-align: center;">🎯 Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($books as $book)
                     <tr>
-                        <td>
+                        <td style="padding: 1rem;">
                             <div class="book-title-cell">
                                 @if($book->cover_image)
                                     <img src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}" class="book-cover">
@@ -82,46 +82,46 @@
                                     <img src="{{ asset('images/placeholder-book.png') }}" alt="no cover" class="book-cover" style="background: #f0f0f0;">
                                 @endif
                                 <div class="book-info">
-                                    <strong title="{{ $book->title }}">{{ Str::limit($book->title, 50) }}</strong>
+                                    <strong title="{{ $book->title }}">{{ Str::limit($book->title, 35) }}</strong>
                                     <small>ID: #{{ $book->id }}</small>
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <td style="padding: 1rem;">
                             <small>{{ $book->author ?? '-' }}</small>
                         </td>
-                        <td>
-                            <span class="badge bg-secondary">{{ $book->category->name ?? '-' }}</span>
+                        <td style="padding: 1rem;">
+                            <span class="badge-custom category-badge">{{ $book->category->name ?? '-' }}</span>
                         </td>
-                        <td>
-                            <div class="stok-info">
-                                <strong>{{ $book->available_copies }}/{{ $book->total_copies }}</strong>
+                        <td style="padding: 1rem;">
+                            <span class="badge-custom stock-badge">
+                                {{ $book->available_copies }}/{{ $book->total_copies }}
                                 @if($book->available_copies < 3 && $book->available_copies > 0)
-                                    <br><small class="text-warning"><i class="fas fa-exclamation"></i> Terbatas</small>
+                                    <small class="text-warning"> (Terbatas)</small>
                                 @elseif($book->available_copies <= 0)
-                                    <br><small class="text-danger"><i class="fas fa-times"></i> Habis</small>
+                                    <small class="text-danger"> (Habis)</small>
                                 @endif
-                            </div>
+                            </span>
                         </td>
-                        <td>
+                        <td style="padding: 1rem;">
                             <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
                                 @if($book->is_active)
-                                    <span class="badge bg-success">✓ Aktif</span>
+                                    <span class="badge-custom status-active">✓ Aktif</span>
                                 @else
-                                    <span class="badge bg-danger">✕ Nonaktif</span>
+                                    <span class="badge-custom status-inactive">✕ Nonaktif</span>
                                 @endif
                                 @if($book->is_featured)
-                                    <span class="badge bg-warning">⭐ Featured</span>
+                                    <span class="badge-custom featured-badge">⭐ Featured</span>
                                 @endif
                             </div>
                         </td>
-                        <td>
-                            <div class="action-buttons">
-                                <a href="{{ route('petugas.books.show', $book) }}" class="btn btn-warning btn-sm" title="Lihat detail">
-                                    <i class="fas fa-eye"></i>
+                        <td style="padding: 1rem;">
+                            <div class="action-buttons" style="justify-content: center;">
+                                <a href="{{ route('petugas.books.show', $book) }}" class="btn btn-show" title="Lihat detail">
+                                    <i class="fas fa-eye"></i> Detail
                                 </a>
-                                <a href="{{ route('books.show', $book->slug) }}" target="_blank" class="btn btn-secondary btn-sm" title="Lihat di katalog">
-                                    <i class="fas fa-external-link-alt"></i>
+                                <a href="{{ route('books.show', $book->slug) }}" target="_blank" class="btn" title="Lihat di katalog" style="background: linear-gradient(135deg, #26a69a 0%, #009688 100%); color: white;">
+                                    <i class="fas fa-external-link-alt"></i> Katalog
                                 </a>
                             </div>
                         </td>

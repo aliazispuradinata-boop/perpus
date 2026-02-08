@@ -69,20 +69,20 @@
 <div class="table-card">
     <div class="table-responsive">
         <table class="table table-hover">
-            <thead>
+            <thead style="background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%); color: white;">
                 <tr>
-                    <th style="width: 35%;">📖 Judul Buku</th>
-                    <th style="width: 15%;">✍️ Penulis</th>
-                    <th style="width: 15%;">📂 Kategori</th>
-                    <th style="width: 12%;">📊 Stok</th>
-                    <th style="width: 12%;">⚙️ Status</th>
-                    <th style="width: 11%;">🎯 Aksi</th>
+                    <th style="width: 38%; color: white; font-weight: 600; padding: 1rem;">📖 Judul Buku</th>
+                    <th style="width: 15%; color: white; font-weight: 600; padding: 1rem;">✍️ Penulis</th>
+                    <th style="width: 13%; color: white; font-weight: 600; padding: 1rem;">📂 Kategori</th>
+                    <th style="width: 12%; color: white; font-weight: 600; padding: 1rem;">📊 Stok</th>
+                    <th style="width: 12%; color: white; font-weight: 600; padding: 1rem;">⚙️ Status</th>
+                    <th style="width: 10%; color: white; font-weight: 600; padding: 1rem; text-align: center;">🎯 Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($books as $book)
                     <tr>
-                        <td>
+                        <td style="padding: 1rem;">
                             <div class="book-title-cell">
                                 <img src="{{ $book->cover_url }}" alt="{{ $book->title }}" class="book-cover">
                                 <div class="book-info">
@@ -91,18 +91,18 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <td style="padding: 1rem;">
                             <small>{{ $book->author }}</small>
                         </td>
-                        <td>
+                        <td style="padding: 1rem;">
                             <span class="badge-custom category-badge">{{ $book->category->name }}</span>
                         </td>
-                        <td>
+                        <td style="padding: 1rem;">
                             <span class="badge-custom stock-badge">
                                 {{ $book->available_copies }}/{{ $book->total_copies }}
                             </span>
                         </td>
-                        <td>
+                        <td style="padding: 1rem;">
                             <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
                                 @if($book->is_active)
                                     <span class="badge-custom status-active">✓ Aktif</span>
@@ -114,16 +114,16 @@
                                 @endif
                             </div>
                         </td>
-                        <td>
-                            <div class="action-buttons">
-                                <a href="{{ route('admin.books.edit', $book) }}" class="btn btn-action btn-edit" title="Edit buku">
+                        <td style="padding: 1rem;">
+                            <div class="action-buttons" style="justify-content: center;">
+                                <a href="{{ route('admin.books.edit', $book) }}" class="btn btn-edit" title="Edit buku" style="text-decoration: none;">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
                                 <form method="POST" action="{{ route('admin.books.destroy', $book) }}" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-action btn-delete" 
-                                            onclick="return confirm('Yakin ingin menghapus buku ini?')" title="Hapus buku">
+                                    <button type="submit" class="btn btn-delete" 
+                                            onclick="return confirm('Yakin ingin menghapus buku ini?')" title="Hapus buku" style="text-decoration: none;">
                                         <i class="fas fa-trash"></i> Hapus
                                     </button>
                                 </form>
